@@ -1,0 +1,31 @@
+{
+    "name": "adam/day-one",
+    "type": "project",
+    "require": {
+        "adhocore/cli": "^1.6"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.10",
+        "pestphp/pest": "^2.8"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Adam\\DayOne\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Adam Beck",
+            "email": "adamb3189@gmail.com"
+        }
+    ],
+    "scripts": {
+        "main": "php -d auto_prepend_file=vendor/autoload.php src/main.php"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
