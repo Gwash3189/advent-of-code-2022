@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'adam/day-one',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '2a271aa1d3f50f8788b6bd86a01c8f4dc7d1f54b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'adam/day-one' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '2a271aa1d3f50f8788b6bd86a01c8f4dc7d1f54b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -36,6 +36,18 @@
             'install_path' => __DIR__ . '/../brianium/paratest',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'cordoval/hamcrest-php' => array(
+            'dev_requirement' => true,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'davedevelopment/hamcrest-php' => array(
+            'dev_requirement' => true,
+            'replaced' => array(
+                0 => '*',
+            ),
         ),
         'doctrine/deprecations' => array(
             'pretty_version' => 'v1.1.1',
@@ -64,6 +76,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'hamcrest/hamcrest-php' => array(
+            'pretty_version' => 'v2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../hamcrest/hamcrest-php',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'jean85/pretty-package-versions' => array(
             'pretty_version' => '2.0.5',
             'version' => '2.0.5.0',
@@ -73,12 +94,27 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'kodova/hamcrest-php' => array(
+            'dev_requirement' => true,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
         'laravel/pint' => array(
             'pretty_version' => 'v1.10.3',
             'version' => '1.10.3.0',
             'reference' => 'c472786bca01e4812a9bb7933b23edfc5b6877b7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../laravel/pint',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'mockery/mockery' => array(
+            'pretty_version' => '1.6.2',
+            'version' => '1.6.2.0',
+            'reference' => '13a7fa2642c76c58fa2806ef7f565344c817a191',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mockery/mockery',
             'aliases' => array(),
             'dev_requirement' => true,
         ),

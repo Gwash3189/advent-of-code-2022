@@ -1,42 +1,90 @@
 <?php
-namespace Adam\DayOne;
 
-use Adam\DayOne\Observer\File;
-use Adam\DayOne\Observer\FileEvents;
-use Adam\DayOne\Observer\Observer;
+namespace AOC\DayOne;
+
+use AOC\DayOne\Observer\File;
+use AOC\DayOne\Observer\FileEvents;
+use AOC\DayOne\Observer\Observer;
+
+class TopThree
+{
+    public array $three = [0, 0, 0];
+
+    public function __construct()
+    {
+    }
+
+    public function push(int $number)
+    {
+        if ($number > $this->three[0]) {
+            $this->three[2] = $this->three[1]; // second item to third index
+            $this->three[1] = $this->three[0]; // first item to second index
+            $this->three[0] = $number; // new item to highest index
+
+            return;
+        }
+        if ($number > $this->three[1]) {
+            $this->three[2] = $this->three[1]; // second item to third index
+            $this->three[1] = $number; // item to second index
+
+            return;
+        }
+        if ($number > $this->three[2]) {
+            $this->three[2] = $number; // item to last index
+
+            return;
+        }
+    }
+}
+
+function formatBytes($bytes)
+{
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+    $index = 0;
+    while ($bytes >= 1024 && $index < count($units) - 1) {
+        $bytes /= 1024;
+        $index++;
+    }
+
+    return round($bytes, 8).' '.$units[$index];
+}
 
 class Main
 {
-  public static function run() {
-    $start = microtime(true);
-    $accumulator = [];
-    $elfs = [];
-
-    File::from("./input.txt")
-      ->listen(FileEvents::Line, Observer::from(function (string $line) use (&$accumulator) {
-          $newLine = trim($line);
-          array_push($accumulator, $newLine);
-        }))
-      ->listen(FileEvents::Empty, Observer::from(function () use (&$accumulator, &$elfs) {
-        array_push($elfs, new Elf($accumulator));
+    public static function run()
+    {
+        $start = microtime(true);
         $accumulator = [];
-      }))
-      ->listen(FileEvents::End, Observer::from(function () use (&$elfs, &$start) {
-          $arr = array_map(function(Elf $elf) {
-            return $elf->total();
-          }, $elfs);
-          rsort($arr);
-          $end = microtime(true);
-          $time = $end - $start;
+        $elfs = [];
+        $topThree = new TopThree();
 
-          print("Top 1: " . $arr[0] . "\n");
-          print("Top 3: " . $arr[0] + $arr[1] + $arr[2] . "\n");
-          print("Execution start: {$start}\n");
-          print("Execution end: {$end}\n");
-          print("Execution time: {$time}");
-        }))
-        ->read();
-  }
+        File::from('./input.txt')
+            ->listen(FileEvents::Line, Observer::from(function (string $line) use (&$accumulator) {
+                array_push($accumulator, $line);
+            }))
+            ->listen(FileEvents::Empty, Observer::from(function () use (&$accumulator, &$elfs, &$topThree) {
+                $elf = new Elf($accumulator);
+                array_push($elfs, $elf);
+
+                $topThree->push($elf->total);
+
+                $accumulator = [];
+            }))
+            ->listen(FileEvents::End, Observer::from(function () use (&$topThree, &$start) {
+                $end = microtime(true);
+                $time = $end - $start;
+                $bytes = formatBytes(memory_get_peak_usage());
+
+                echo 'Top 1: '.$topThree->three[0]."\n";
+                echo 'Total of Top 3: '.$topThree->three[0] + $topThree->three[1] + $topThree->three[2]."\n";
+                echo "Execution start: {$start}\n";
+                echo "Execution end: {$end}\n";
+                echo "Execution time in seconds: {$time}\n";
+                echo "Memory Usage: {$bytes}\n";
+            }))
+            ->read();
+    }
 }
 
 Main::run();

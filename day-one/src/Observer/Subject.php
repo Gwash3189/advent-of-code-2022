@@ -1,32 +1,29 @@
 <?php
-namespace Adam\DayOne\Observer;
+
+namespace AOC\DayOne\Observer;
 
 class Subject
 {
-  private $observers;
+    private $observers;
 
-  public function __construct() {
-    $this->observers = [];
-  }
-
-  public function subscribe(string $eventType, Observer $observer): Subject {
-    $observers = $this->observers[$eventType];
-
-    if (empty($observers)) {
-      $this->observers[$eventType] = [$observer];
-    } else {
-      $arr = $this->observers[$eventType];
-      $arr[] = $observer;
-      $this->observers[$eventType] = $arr;
+    public function __construct()
+    {
+        $this->observers = [];
     }
 
-    return $this;
-  }
+    public function subscribe(string $eventType, Observer $observer): Subject
+    {
+        $observers = $this->observers[$eventType] ?? [];
 
-  public function notify(string $eventType) {
-    foreach ($this->observers[$eventType] as $observer) {
-      $observer->update();
+        $this->observers[$eventType] = [...$observers, $observer];
+
+        return $this;
     }
-  }
+
+    public function notify(string $eventType, mixed $data)
+    {
+        foreach ($this->observers[$eventType] as $observer) {
+            $observer->update($data);
+        }
+    }
 }
-

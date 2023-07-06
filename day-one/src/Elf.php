@@ -1,14 +1,17 @@
 <?php
-namespace Adam\DayOne;
 
+namespace AOC\DayOne;
 
 class Elf
 {
-  public function __construct(public readonly array $calories) {}
+    public readonly int $total;
 
-  public function total(): int {
-    return array_reduce($this->calories, function (int $total, string $calorie): int {
-      return $total + intval($calorie);
-    }, 0);
-  }
+    public function __construct(array $calories)
+    {
+        $this->total = array_reduce(
+            $calories,
+            fn (int $total, string $calorie): int => $total + intval($calorie),
+            0
+        );
+    }
 }
