@@ -55,21 +55,16 @@ class Main
     public static function run()
     {
         $start = microtime(true);
-        $accumulator = [];
-        $elfs = [];
+        $accumulator = 0;
         $topThree = new TopThree();
 
         File::from('./input.txt')
             ->listen(FileEvents::Line, Observer::from(function (string $line) use (&$accumulator) {
-                array_push($accumulator, $line);
+                $accumulator = $accumulator + intval($line);
             }))
-            ->listen(FileEvents::Empty, Observer::from(function () use (&$accumulator, &$elfs, &$topThree) {
-                $elf = new Elf($accumulator);
-                array_push($elfs, $elf);
-
-                $topThree->push($elf->total);
-
-                $accumulator = [];
+            ->listen(FileEvents::EmptyLine, Observer::from(function () use (&$accumulator, &$elfs, &$topThree) {
+                $topThree->push($accumulator);
+                $accumulator = 0;
             }))
             ->listen(FileEvents::End, Observer::from(function () use (&$topThree, &$start) {
                 $end = microtime(true);

@@ -8,14 +8,14 @@ use RuntimeException;
 enum FileEvents
 {
     case Line;
-    case Empty;
+    case EmptyLine;
     case End;
 
     public function event(): string
     {
         return match ($this) {
             FileEvents::Line => 'line',
-            FileEvents::Empty => 'empty',
+            FileEvents::EmptyLine => 'empty',
             FileEvents::End => 'end',
         };
     }
@@ -48,7 +48,7 @@ class File extends Subject
             $trimmed = trim($line);
 
             if (empty($trimmed)) {
-                $this->notify(FileEvents::Empty->event(), $trimmed);
+                $this->notify(FileEvents::EmptyLine->event(), $trimmed);
             } else {
                 $this->notify(FileEvents::Line->event(), $trimmed);
             }
